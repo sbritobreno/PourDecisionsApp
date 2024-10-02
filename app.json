@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PourDecisionsApp",
-    "slug": "PourDecisionsApp",
+    "slug": "pourdecisions",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -32,6 +32,12 @@
     "experiments": {
       "typedRoutes": true
     },
-    "entryPoint": "App.js"
+    "entryPoint": "App.js",
+    "extra": {
+      "eas": {
+        "projectId": "a069572e-a8d2-452e-b1de-438bb6d8b93e"
+      }
+    },
+    "owner": "sbritobreno"
   }
 }
