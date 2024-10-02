@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -8,20 +8,44 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { fetchCocktailRecipes } from "./api/apiService";
+import { fetchCocktailRecipes } from "./services/apiService";
+import { getCocktailRecommendationFromAI } from "./services/aiService";
 import { useRouter } from "expo-router";
 
 const MainPage = () => {
   const [prompt, setPrompt] = useState("");
-  const [recipes, setRecipes] = useState([]);
+  const [allRecipes, setAllRecipes] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const router = useRouter();
 
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      setLoading(true);
+      const fetchedRecipes = await fetchCocktailRecipes("");
+      setAllRecipes(fetchedRecipes);
+      setFilteredRecipes(fetchedRecipes);
+      setLoading(false);
+    };
+
+    fetchRecipes();
+  }, []);
+
   const handleSearch = async () => {
+    if (!prompt) {
+      setFilteredRecipes(allRecipes);
+      return;
+    }
+
     setLoading(true);
-    const fetchedRecipes = await fetchCocktailRecipes(prompt);
-    setRecipes(fetchedRecipes);
+
+    const aiResponse = await getCocktailRecommendationFromAI(prompt);
+
+    const filtered = allRecipes.filter((recipe) =>
+      recipe.name.toLowerCase().includes(aiResponse.toLowerCase())
+    );
+
+    setFilteredRecipes(filtered);
     setLoading(false);
   };
 
@@ -45,7 +69,7 @@ const MainPage = () => {
         <Text>loading...</Text>
       ) : (
         <FlatList
-          data={recipes}
+          data={filteredRecipes}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleRecipeClick(item)}>
