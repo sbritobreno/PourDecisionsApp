@@ -13,5 +13,5 @@ export default function Index() {
     return () => clearTimeout(timer);
   }, []);
 
-  return <MainPage />;
+  return <MainPage/>;
 }
