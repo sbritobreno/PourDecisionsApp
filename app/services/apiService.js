@@ -3,8 +3,8 @@ import { COCKTAIL_API_KEY } from "@env";
 export const fetchCocktailRecipes = async (searchTerm = "") => {
   try {
     const url = searchTerm
-      ? `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchTerm}`
-      : `https://www.thecocktaildb.com/api/json/v1/1/random.php`;
+      ? `https://www.thecocktaildb.com/api/json/v2/${COCKTAIL_API_KEY}/search.php?s=${searchTerm}`
+      : `https://www.thecocktaildb.com/api/json/v2/${COCKTAIL_API_KEY}/popular.php`;
 
     const response = await fetch(url);
     const data = await response.json();

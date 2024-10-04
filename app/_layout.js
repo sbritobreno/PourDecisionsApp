@@ -7,6 +7,7 @@ export default function Layout() {
       <Header />
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="RecipeDetails" options={{ headerShown: false }} />
       </Stack>
     </>
   );
