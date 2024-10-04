@@ -1,12 +1,21 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router"; // Import useRouter from expo-router
 
 const logo = require("../../assets/images/logo_header.png");
 
 const Header = () => {
+  const router = useRouter(); // Initialize the router
+
+  const handlePress = () => {
+    router.push("/"); // Navigate to index.js (home screen)
+  };
+
   return (
     <View style={styles.header}>
-      <Image source={logo} style={styles.logo} />
+      <TouchableOpacity onPress={handlePress}>
+        <Image source={logo} style={styles.logo} />
+      </TouchableOpacity>
     </View>
   );
 };

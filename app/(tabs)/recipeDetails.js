@@ -2,10 +2,8 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from "expo-router";
 
-const RecipeDetails = ({ route }) => {
+const RecipeDetails = () => {
   const { recipeId } = useLocalSearchParams();
-  console.log(recipeId)
-
 
   return (
     <View style={styles.container}>

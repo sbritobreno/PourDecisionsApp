@@ -5,6 +5,7 @@ import { fetchCocktailRecipes } from "../services/apiService";
 import { getCocktailRecommendationFromAI } from "../services/aiService";
 import SearchBar from "../components/SearchBar";
 import RecipeCard from "../components/RecipeCard";
+import Loading from "../components/Loading";
 
 const MainPage = () => {
   const [prompt, setPrompt] = useState("");
@@ -46,7 +47,7 @@ const MainPage = () => {
   const handleRecipeClick = (recipe) => {
     router.push({
       pathname: "./recipeDetails",
-      params: {recipeId: recipe.id},
+      params: { recipeId: recipe.id },
     });
   };
 
@@ -58,7 +59,7 @@ const MainPage = () => {
         handleSearch={handleSearch}
       />
       {loading ? (
-        <Text>loading...</Text>
+        <Loading />
       ) : (
         <FlatList
           data={filteredRecipes}
