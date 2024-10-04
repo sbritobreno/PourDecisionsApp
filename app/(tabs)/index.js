@@ -45,8 +45,8 @@ const MainPage = () => {
 
   const handleRecipeClick = (recipe) => {
     router.push({
-      pathname: "./RecipeDetails",
-      params: { recipe },
+      pathname: "./recipeDetails",
+      params: {recipeId: recipe.id},
     });
   };
 

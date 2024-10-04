@@ -1,18 +1,15 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import { useLocalSearchParams } from "expo-router";
 
 const RecipeDetails = ({ route }) => {
-  const { recipe } = route.params; 
+  const { recipeId } = useLocalSearchParams();
+  console.log(recipeId)
+
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: recipe.thumbnail }} style={styles.image} />
-      <Text style={styles.title}>{recipe.name}</Text>
-      <Text style={styles.category}>Category: {recipe.category}</Text>
-      <Text style={styles.ingredients}>
-        Ingredients: {recipe.ingredients.map(ing => `${ing.ingredient} (${ing.measure})`).join(', ')}
-      </Text>
-      <Text style={styles.instructions}>Instructions: {recipe.instructions}</Text>
+      <Text style={styles.title}>{recipeId}</Text>
     </View>
   );
 };

@@ -1,14 +1,27 @@
 import { Stack } from "expo-router";
-import Header from "./components/Header";
+import React, { useEffect } from "react";
+import * as SplashScreen from "expo-splash-screen";
 
-export default function Layout() {
+SplashScreen.preventAutoHideAsync();
+
+const RootLayout = () => {
+  useEffect(() => {
+    const timer = setTimeout(async () => {
+      await SplashScreen.hideAsync();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
   return (
-    <>
-      <Header />
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="RecipeDetails" options={{ headerShown: false }} />
-      </Stack>
-    </>
+    <Stack>
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack>
   );
-}
+};
+
+export default RootLayout;
