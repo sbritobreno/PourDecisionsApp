@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   View,
+  Image,
   TextInput,
   Button,
   FlatList,
@@ -8,8 +9,8 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { fetchCocktailRecipes } from "./services/apiService";
-import { getCocktailRecommendationFromAI } from "./services/aiService";
+import { fetchCocktailRecipes } from "../services/apiService";
+import { getCocktailRecommendationFromAI } from "../services/aiService";
 import { useRouter } from "expo-router";
 
 const MainPage = () => {
@@ -73,8 +74,19 @@ const MainPage = () => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handleRecipeClick(item)}>
-              <View style={styles.recipeItem}>
+              <View style={styles.recipeCard}>
+                <Image source={{ uri: item.thumbnail }} style={styles.image} />
                 <Text style={styles.recipeName}>{item.name}</Text>
+                <Text style={styles.category}>Category: {item.category}</Text>
+                <Text style={styles.ingredients}>
+                  Ingredients:{" "}
+                  {item.ingredients
+                    .map((ing) => `${ing.ingredient} (${ing.measure})`)
+                    .join(", ")}
+                </Text>
+                <Text style={styles.instructions}>
+                  Instructions: {item.instructions}
+                </Text>
               </View>
             </TouchableOpacity>
           )}
@@ -96,17 +108,42 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 16,
-    marginHorizontal: 10,
     marginBottom: 16,
   },
-  recipeItem: {
+  recipeCard: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
     padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
+    marginBottom: 16,
+    elevation: 3, 
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+  },
+  image: {
+    width: "100%",
+    height: 200,
+    borderRadius: 10,
   },
   recipeName: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: "bold",
+    marginTop: 8,
+  },
+  category: {
+    fontSize: 16,
+    color: "#666",
+  },
+  ingredients: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 4,
+  },
+  instructions: {
+    fontSize: 14,
+    color: "#333",
+    marginTop: 4,
   },
 });
 
