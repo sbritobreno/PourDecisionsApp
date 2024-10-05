@@ -1,12 +1,62 @@
-import React from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
-import { COLORS, SIZES, SPACING } from "../constants/constants";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { COLORS, SIZES, SPACING, FAVORITES_KEY } from "../constants/constants";
+import Icon from "react-native-vector-icons/FontAwesome";
 import Loading from "./Loading";
+import FloatingButton from "./FloatingButton";
 
 const RecipeDetailsCard = ({ recipe }) => {
-  if (!recipe) {
-    return <Loading />;
-  }
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const getFavorites = async () => {
+    try {
+      const storedFavorites = await AsyncStorage.getItem(FAVORITES_KEY);
+      return storedFavorites ? JSON.parse(storedFavorites) : [];
+    } catch (error) {
+      console.error("Error retrieving favorites:", error);
+      return [];
+    }
+  };
+
+  const checkIfFavorite = async () => {
+    const favorites = await getFavorites();
+    setIsFavorite(favorites.includes(recipe.id));
+  };
+
+  const toggleFavorite = async () => {
+    try {
+      const favorites = await getFavorites();
+      let updatedFavorites;
+
+      if (isFavorite) {
+        updatedFavorites = favorites.filter((id) => id !== recipe.id);
+      } else {
+        updatedFavorites = [...favorites, recipe.id];
+      }
+
+      await AsyncStorage.setItem(
+        FAVORITES_KEY,
+        JSON.stringify(updatedFavorites)
+      );
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error("Error saving to favorites:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (recipe) {
+      checkIfFavorite();
+    }
+  }, [recipe]);
 
   // Render each ingredient with its measure
   const renderIngredients = () => {
@@ -19,18 +69,46 @@ const RecipeDetailsCard = ({ recipe }) => {
     ));
   };
 
+  if (!recipe) {
+    return <Loading />;
+  }
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: recipe.thumbnail }} style={styles.thumbnail} />
-      </View>
-      <Text style={styles.name}>{recipe.name}</Text>
-      <Text style={styles.category}>Category: {recipe.category}</Text>
-      <Text style={styles.sectionTitle}>Ingredients</Text>
-      {renderIngredients()}
-      <Text style={styles.sectionTitle}>Instructions</Text>
-      <Text style={styles.instructions}>{recipe.instructions}</Text>
-    </ScrollView>
+    <>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image source={{ uri: recipe.thumbnail }} style={styles.thumbnail} />
+          {isFavorite && (
+            <Icon
+              name="star"
+              size={30}
+              color="gold"
+              style={styles.favoriteIcon}
+            />
+          )}
+        </View>
+        <Text style={styles.name}>{recipe.name}</Text>
+        <Text style={styles.category}>Category: {recipe.category}</Text>
+        <Text style={styles.sectionTitle}>Ingredients</Text>
+        {renderIngredients()}
+        <Text style={styles.sectionTitle}>Instructions</Text>
+        <Text style={styles.instructions}>{recipe.instructions}</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              { backgroundColor: isFavorite ? "red" : "green" },
+            ]}
+            onPress={toggleFavorite}
+          >
+            <Text style={styles.buttonText}>
+              {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+      <FloatingButton icon={"arrow-back"} route={"/"} />
+    </>
   );
 };
 
@@ -40,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   imageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginVertical: SPACING.medium,
   },
   thumbnail: {
@@ -48,22 +126,27 @@ const styles = StyleSheet.create({
     height: 300,
     borderRadius: 8,
   },
+  favoriteIcon: {
+    position: "absolute",
+    top: 10,
+    right: 40,
+  },
   name: {
     fontSize: SIZES.large,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: SPACING.small,
     color: COLORS.white,
   },
   category: {
     fontSize: SIZES.medium,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: SPACING.small,
     color: COLORS.white,
   },
   sectionTitle: {
     fontSize: SIZES.large,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: SPACING.small,
     color: COLORS.white,
   },
@@ -78,6 +161,22 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     lineHeight: 20,
     color: COLORS.white,
+  },
+  buttonContainer: {
+    alignItems: "center",
+    marginVertical: SPACING.large,
+  },
+  button: {
+    paddingVertical: SPACING.small,
+    paddingHorizontal: SPACING.large,
+    borderRadius: 8,
+    width: "80%",
+  },
+  buttonText: {
+    color: COLORS.white,
+    fontSize: SIZES.medium,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

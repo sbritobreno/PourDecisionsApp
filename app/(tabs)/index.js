@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
-import { View, FlatList, Text, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet } from "react-native";
 import { fetchCocktailRecipes } from "../services/apiService";
 import { getCocktailRecommendationFromAI } from "../services/aiService";
-import { COLORS } from "../constants/constants";
+import { COLORS, FAVORITES_KEY } from "../constants/constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "../components/SearchBar";
 import RecipeCard from "../components/RecipeCard";
 import Loading from "../components/Loading";
@@ -13,6 +14,7 @@ const MainPage = () => {
   const [allRecipes, setAllRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [favorites, setFavorites] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -24,7 +26,18 @@ const MainPage = () => {
       setLoading(false);
     };
 
+    const fetchFavorites = async () => {
+      try {
+        const storedFavorites = await AsyncStorage.getItem(FAVORITES_KEY);
+        const favoriteIds = storedFavorites ? JSON.parse(storedFavorites) : [];
+        setFavorites(favoriteIds);
+      } catch (error) {
+        console.error("Error retrieving favorites:", error);
+      }
+    };
+
     fetchRecipes();
+    fetchFavorites();
   }, []);
 
   const handleSearch = async () => {
@@ -52,6 +65,17 @@ const MainPage = () => {
     });
   };
 
+  const renderItem = ({ item }) => {
+    const isFavorite = favorites.includes(item.id);
+    return (
+      <RecipeCard
+        item={item}
+        handleRecipeClick={handleRecipeClick}
+        isFavorite={isFavorite}
+      />
+    );
+  };
+
   return (
     <View style={styles.container}>
       <SearchBar
@@ -65,9 +89,7 @@ const MainPage = () => {
         <FlatList
           data={filteredRecipes}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <RecipeCard item={item} handleRecipeClick={handleRecipeClick} />
-          )}
+          renderItem={renderItem}
         />
       )}
     </View>

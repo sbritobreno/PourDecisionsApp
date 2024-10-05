@@ -1,16 +1,16 @@
 // constants.js
 
 export const COLORS = {
-  primary: '#374C7B',
-  white: '#FFFFFF',
-  black: '#000000',
-  gray: '#808080',
+  primary: "#374C7B",
+  white: "#FFFFFF",
+  black: "#000000",
+  gray: "#808080",
 };
 
 export const FONTS = {
-  regular: 'Roboto-Regular',
-  bold: 'Roboto-Bold',
-  medium: 'Roboto-Medium',
+  regular: "Roboto-Regular",
+  bold: "Roboto-Bold",
+  medium: "Roboto-Medium",
 };
 
 export const SIZES = {
@@ -25,3 +25,5 @@ export const SPACING = {
   medium: 16,
   large: 24,
 };
+
+export const FAVORITES_KEY = "favorite_recipes";
