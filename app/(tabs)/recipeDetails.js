@@ -1,13 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from "expo-router";
+import { fetchCocktailById } from "../services/apiService";
 
 const RecipeDetails = () => {
+  const [recipe, setRecipe] = useState({});
   const { recipeId } = useLocalSearchParams();
+  
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      const fetchedRecipe = await fetchCocktailById(recipeId);
+      setRecipe(fetchedRecipe);
+    };
+
+    fetchRecipe();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{recipeId}</Text>
+      <Text style={styles.title}>{recipe.id}</Text>
     </View>
   );
 };
