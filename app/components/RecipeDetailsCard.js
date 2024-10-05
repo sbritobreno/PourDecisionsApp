@@ -21,7 +21,9 @@ const RecipeDetailsCard = ({ recipe }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={{ uri: recipe.thumbnail }} style={styles.thumbnail} />
+      <View style={styles.imageContainer}>
+        <Image source={{ uri: recipe.thumbnail }} style={styles.thumbnail} />
+      </View>
       <Text style={styles.name}>{recipe.name}</Text>
       <Text style={styles.category}>Category: {recipe.category}</Text>
       <Text style={styles.sectionTitle}>Ingredients</Text>
@@ -37,33 +39,36 @@ const styles = StyleSheet.create({
     padding: SPACING.medium,
     backgroundColor: COLORS.primary,
   },
-  thumbnail: {
-    width: "100%",
-    height: 350,
-    borderRadius: 8,
+  imageContainer: {
+    alignItems: 'center',
     marginVertical: SPACING.medium,
+  },
+  thumbnail: {
+    width: 300,
+    height: 300,
+    borderRadius: 8,
   },
   name: {
     fontSize: SIZES.large,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontWeight: 'bold',
+    textAlign: 'center',
     marginBottom: SPACING.small,
     color: COLORS.white,
   },
   category: {
     fontSize: SIZES.medium,
-    textAlign: "center",
-    marginBottom: SPACING.medium,
+    textAlign: 'center',
+    marginBottom: SPACING.small,
     color: COLORS.white,
   },
   sectionTitle: {
     fontSize: SIZES.large,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: SPACING.small,
-    color: COLORS.black,
+    color: COLORS.white,
   },
   ingredientItem: {
-    marginBottom: SPACING.small,
+    marginBottom: 2,
   },
   ingredientText: {
     fontSize: SIZES.medium,
@@ -71,7 +76,7 @@ const styles = StyleSheet.create({
   },
   instructions: {
     fontSize: SIZES.medium,
-    lineHeight: 24,
+    lineHeight: 20,
     color: COLORS.white,
   },
 });

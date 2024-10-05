@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { fetchCocktailById } from "../services/apiService";
-import { COLORS } from '../constants/constants';
-import RecipeDetailsCard from '../components/RecipeDetailsCard';
+import { COLORS } from "../constants/constants";
+import RecipeDetailsCard from "../components/RecipeDetailsCard";
 
 const RecipeDetails = () => {
   const [recipe, setRecipe] = useState({});
   const { recipeId } = useLocalSearchParams();
-  
+
   useEffect(() => {
     const fetchRecipe = async () => {
       const fetchedRecipe = await fetchCocktailById(recipeId);
@@ -16,11 +16,11 @@ const RecipeDetails = () => {
     };
 
     fetchRecipe();
-  }, []);
+  }, [recipeId]);
 
   return (
     <View style={styles.container}>
-      <RecipeDetailsCard recipe={recipe[0]} /> 
+      <RecipeDetailsCard recipe={recipe[0]} />
     </View>
   );
 };
