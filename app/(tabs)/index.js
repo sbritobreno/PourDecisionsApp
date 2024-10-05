@@ -8,6 +8,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "../components/SearchBar";
 import RecipeCard from "../components/RecipeCard";
 import Loading from "../components/Loading";
+import FloatingButton from "../components/FloatingButton";
+import { useFonts } from "expo-font";
 
 const MainPage = () => {
   const [prompt, setPrompt] = useState("");
@@ -16,6 +18,10 @@ const MainPage = () => {
   const [loading, setLoading] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const router = useRouter();
+
+  useFonts({
+    IrishGrover: require("../../assets/fonts/IrishGrover-Regular.ttf"),
+  });
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -77,22 +83,25 @@ const MainPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <SearchBar
-        prompt={prompt}
-        setPrompt={setPrompt}
-        handleSearch={handleSearch}
-      />
-      {loading ? (
-        <Loading />
-      ) : (
-        <FlatList
-          data={filteredRecipes}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderItem}
+    <>
+      <View style={styles.container}>
+        <SearchBar
+          prompt={prompt}
+          setPrompt={setPrompt}
+          handleSearch={handleSearch}
         />
-      )}
-    </View>
+        {loading ? (
+          <Loading />
+        ) : (
+          <FlatList
+            data={filteredRecipes}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+          />
+        )}
+      </View>
+      <FloatingButton icon={"bookmark"} route={"./favorites"} homebtn={true} />
+    </>
   );
 };
 

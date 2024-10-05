@@ -20,6 +20,13 @@ const TabsLayout = () => {
             tabBarStyle: { display: "none" },
           }}
         />
+        <Tabs.Screen
+          name="favorites"
+          options={{
+            headerShown: false,
+            tabBarStyle: { display: "none" },
+          }}
+        />
       </Tabs>
     </>
   );

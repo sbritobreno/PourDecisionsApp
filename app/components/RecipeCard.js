@@ -1,18 +1,18 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { COLORS, SIZES, SPACING  } from '../constants/constants';
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { COLORS, SIZES, SPACING } from "../constants/constants";
 
 const RecipeCard = ({ item, handleRecipeClick, isFavorite }) => {
   return (
     <TouchableOpacity onPress={() => handleRecipeClick(item)}>
       <View style={styles.recipeCard}>
         {isFavorite && (
-          <Ionicons 
-            name="star" 
-            size={24} 
-            color="#374C7B" 
-            style={styles.favoriteIcon} 
+          <Ionicons
+            name="star"
+            size={24}
+            color="#374C7B"
+            style={styles.favoriteIcon}
           />
         )}
         <Image source={{ uri: item.thumbnail }} style={styles.image} />
@@ -44,9 +44,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   favoriteIcon: {
-    position: 'absolute', 
-    top: 5, 
-    right: 5, 
+    position: "absolute",
+    top: 5,
+    right: 5,
   },
 });
 
