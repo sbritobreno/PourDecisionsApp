@@ -13,7 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Loading from "./Loading";
 import FloatingButton from "./FloatingButton";
 
-const RecipeDetailsCard = ({ recipe }) => {
+const RecipeDetailsCard = ({ recipe, route = "/" }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const getFavorites = async () => {
@@ -75,6 +75,9 @@ const RecipeDetailsCard = ({ recipe }) => {
 
   return (
     <>
+      <Text style={[styles.message, { fontFamily: "IrishGrover" }]}>
+        Cocktail details
+      </Text>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.imageContainer}>
           <Image source={{ uri: recipe.thumbnail }} style={styles.thumbnail} />
@@ -87,11 +90,17 @@ const RecipeDetailsCard = ({ recipe }) => {
             />
           )}
         </View>
-        <Text style={styles.name}>{recipe.name}</Text>
+        <Text style={[styles.name, { fontFamily: "IrishGrover" }]}>
+          {recipe.name}
+        </Text>
         <Text style={styles.category}>Category: {recipe.category}</Text>
-        <Text style={styles.sectionTitle}>Ingredients</Text>
+        <Text style={[styles.sectionTitle, { fontFamily: "IrishGrover" }]}>
+          Ingredients
+        </Text>
         {renderIngredients()}
-        <Text style={styles.sectionTitle}>Instructions</Text>
+        <Text style={[styles.sectionTitle, { fontFamily: "IrishGrover" }]}>
+          Instructions
+        </Text>
         <Text style={styles.instructions}>{recipe.instructions}</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -107,7 +116,7 @@ const RecipeDetailsCard = ({ recipe }) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <FloatingButton icon={"arrow-back"} route={"/"} />
+      <FloatingButton icon={"arrow-back"} route={route} />
     </>
   );
 };
@@ -117,9 +126,16 @@ const styles = StyleSheet.create({
     padding: SPACING.medium,
     backgroundColor: COLORS.primary,
   },
+  message: {
+    color: COLORS.white,
+    textAlign: "center",
+    marginTop: SPACING.medium,
+    marginBottom: SPACING.small,
+    fontSize: 18,
+  },
   imageContainer: {
     alignItems: "center",
-    marginVertical: SPACING.medium,
+    marginBottom: SPACING.medium,
   },
   thumbnail: {
     width: 300,

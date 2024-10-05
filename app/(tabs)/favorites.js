@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "expo-router";
+import React, { useState, useCallback } from "react";
+import { useRouter, useFocusEffect } from "expo-router";
 import { View, FlatList, StyleSheet, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RecipeCard from "../components/RecipeCard";
 import { COLORS, FAVORITES_KEY, SPACING } from "../constants/constants";
 import { fetchCocktailById } from "../services/apiService";
+import FloatingButton from "../components/FloatingButton";
 
 const FavoritesPage = () => {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
@@ -20,54 +21,60 @@ const FavoritesPage = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      const favorites = await getFavorites();
-      const fetchedFavorites = await Promise.all(
-        favorites.map((id) => fetchCocktailById(id))
-      );
+  // Use useFocusEffect to refresh favorites when the page comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      const fetchFavorites = async () => {
+        const favorites = await getFavorites();
+        const fetchedFavorites = await Promise.all(
+          favorites.map((id) => fetchCocktailById(id))
+        );
 
-      // Flatten the array of arrays to a single array of objects
-      const validFavorites = fetchedFavorites
-        .flat()
-        .filter((item) => item !== undefined);
+        // Flatten the array of arrays to a single array of objects
+        const validFavorites = fetchedFavorites
+          .flat()
+          .filter((item) => item !== undefined);
 
-      setFavoriteRecipes(validFavorites);
-    };
+        setFavoriteRecipes(validFavorites);
+      };
 
-    fetchFavorites();
-  }, []);
+      fetchFavorites();
+    }, [])
+  );
 
   const handleRecipeClick = (recipe) => {
     router.push({
       pathname: "./recipeDetails",
-      params: { recipeId: recipe.id },
+      params: { recipeId: recipe.id, route: "./favorites" },
     });
   };
 
   return (
-    <View style={styles.container}>
-      {favoriteRecipes.length > 0 ? (
-        <>
-          <Text style={[styles.message, { fontFamily: "IrishGrover" }]}>
-            Saved cocktails recipes
-          </Text>
-          <FlatList
-            data={favoriteRecipes}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <RecipeCard
-                item={item}
-                handleRecipeClick={handleRecipeClick}
-                isFavorite={false}
-              />
-            )}
-          />
-        </>
-      ) : (
-        <Text style={styles.message}>No favorite recipes found.</Text>
-      )}
-    </View>
+    <>
+      <View style={styles.container}>
+        {favoriteRecipes.length > 0 ? (
+          <>
+            <Text style={[styles.message, { fontFamily: "IrishGrover" }]}>
+              Saved cocktails recipes
+            </Text>
+            <FlatList
+              data={favoriteRecipes}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <RecipeCard
+                  item={item}
+                  handleRecipeClick={handleRecipeClick}
+                  isFavorite={false} // You can pass true if you want to mark them as favorites
+                />
+              )}
+            />
+          </>
+        ) : (
+          <Text style={styles.message}>No favorite recipes found.</Text>
+        )}
+      </View>
+      <FloatingButton icon={"arrow-back"} route={"/"} />
+    </>
   );
 };
 

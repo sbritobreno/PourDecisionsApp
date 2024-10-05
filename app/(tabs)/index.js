@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "expo-router";
+import React, { useEffect, useState, useCallback } from "react";
+import { useRouter, useFocusEffect } from "expo-router";
 import { View, FlatList, StyleSheet } from "react-native";
 import { fetchCocktailRecipes } from "../services/apiService";
 import { getCocktailRecommendationFromAI } from "../services/aiService";
@@ -23,6 +23,7 @@ const MainPage = () => {
     IrishGrover: require("../../assets/fonts/IrishGrover-Regular.ttf"),
   });
 
+  // Fetch all recipes when the component mounts
   useEffect(() => {
     const fetchRecipes = async () => {
       setLoading(true);
@@ -32,20 +33,29 @@ const MainPage = () => {
       setLoading(false);
     };
 
-    const fetchFavorites = async () => {
-      try {
-        const storedFavorites = await AsyncStorage.getItem(FAVORITES_KEY);
-        const favoriteIds = storedFavorites ? JSON.parse(storedFavorites) : [];
-        setFavorites(favoriteIds);
-      } catch (error) {
-        console.error("Error retrieving favorites:", error);
-      }
-    };
-
     fetchRecipes();
-    fetchFavorites();
   }, []);
 
+  // Fetch favorites every time the page comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      const fetchFavorites = async () => {
+        try {
+          const storedFavorites = await AsyncStorage.getItem(FAVORITES_KEY);
+          const favoriteIds = storedFavorites
+            ? JSON.parse(storedFavorites)
+            : [];
+          setFavorites(favoriteIds);
+        } catch (error) {
+          console.error("Error retrieving favorites:", error);
+        }
+      };
+
+      fetchFavorites();
+    }, [])
+  );
+
+  // Handle search functionality
   const handleSearch = async () => {
     if (!prompt) {
       setFilteredRecipes(allRecipes);
@@ -67,7 +77,7 @@ const MainPage = () => {
   const handleRecipeClick = (recipe) => {
     router.push({
       pathname: "./recipeDetails",
-      params: { recipeId: recipe.id },
+      params: { recipeId: recipe.id, route: "/" },
     });
   };
 

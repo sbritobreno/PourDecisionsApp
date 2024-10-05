@@ -16,7 +16,7 @@ const RecipeCard = ({ item, handleRecipeClick, isFavorite }) => {
           />
         )}
         <Image source={{ uri: item.thumbnail }} style={styles.image} />
-        <Text style={styles.recipeName}>{item.name}</Text>
+        <Text style={[styles.recipeName, { fontFamily: "IrishGrover" }]}>{item.name}</Text>
       </View>
     </TouchableOpacity>
   );

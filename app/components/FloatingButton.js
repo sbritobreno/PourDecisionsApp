@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -8,8 +8,13 @@ const FloatingButton = ({ icon, route, homebtn = false }) => {
   const router = useRouter();
 
   const handlePress = () => {
-    router.push(route);
+    if (route === "back") {
+      router.back();
+    } else {
+      router.push(route);
+    }
   };
+
   return (
     <View
       style={styles.floatingButton}

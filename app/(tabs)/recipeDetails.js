@@ -7,7 +7,7 @@ import RecipeDetailsCard from "../components/RecipeDetailsCard";
 
 const RecipeDetails = () => {
   const [recipe, setRecipe] = useState({});
-  const { recipeId } = useLocalSearchParams();
+  const { recipeId, route } = useLocalSearchParams();
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -20,7 +20,7 @@ const RecipeDetails = () => {
 
   return (
     <View style={styles.container}>
-      <RecipeDetailsCard recipe={recipe[0]} />
+      <RecipeDetailsCard recipe={recipe[0]} route={route} />
     </View>
   );
 };
