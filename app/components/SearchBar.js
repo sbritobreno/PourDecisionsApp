@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
+import { COLORS, SIZES, SPACING } from "../constants/constants";
 
 const SearchBar = ({ prompt, setPrompt, handleSearch }) => {
   return (
@@ -7,7 +8,7 @@ const SearchBar = ({ prompt, setPrompt, handleSearch }) => {
       <TextInput
         style={styles.input}
         placeholder="🔍 What kind of cocktail are you looking for?"
-        placeholderTextColor="gray"
+        placeholderTextColor={COLORS.gray}
         value={prompt}
         onChangeText={setPrompt}
         onSubmitEditing={handleSearch} 
@@ -21,16 +22,16 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    margin: 15,
+    margin: SPACING.medium,
     marginHorizontal: 30,
   },
   input: {
     flex: 1,
     height: 40,
-    borderColor: 'gray',
+    borderColor: COLORS.gray,
     borderWidth: 1,
     borderRadius: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: SPACING.small,
     backgroundColor: "#FFFAFA",
   },
 });

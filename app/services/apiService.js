@@ -8,7 +8,7 @@ export const fetchCocktailById = async (id) => {
     const data = await response.json();
 
     if (data) {
-      return data.map((drink) => ({
+      return data.drinks.map((drink) => ({
         id: drink.idDrink,
         name: drink.strDrink,
         category: drink.strCategory,

@@ -1,14 +1,14 @@
 import React from "react";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { useRouter } from "expo-router"; // Import useRouter from expo-router
+import { useRouter } from "expo-router"; 
+import { COLORS } from '../constants/constants';
 
 const logo = require("../../assets/images/logo_header.png");
 
 const Header = () => {
-  const router = useRouter(); // Initialize the router
-
+  const router = useRouter();
   const handlePress = () => {
-    router.push("/"); // Navigate to index.js (home screen)
+    router.push("/");
   };
 
   return (
@@ -23,7 +23,7 @@ const Header = () => {
 const styles = StyleSheet.create({
   header: {
     height: 100,
-    backgroundColor: "#374C7B",
+    backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
   },

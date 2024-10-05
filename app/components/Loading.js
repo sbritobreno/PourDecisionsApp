@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { COLORS } from '../constants/constants';
 
 const Loading = () => {
   return (
@@ -14,11 +15,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center', 
     alignItems: 'center',      
-    backgroundColor: '#374C7B', 
+    backgroundColor: COLORS.primary, 
   },
   loadingText: {
     fontSize: 28,
-    color: '#000',  
+    color: COLORS.black,  
   },
 });
 

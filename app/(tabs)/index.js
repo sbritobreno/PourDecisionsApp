@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { View, FlatList, Text, StyleSheet } from "react-native";
 import { fetchCocktailRecipes } from "../services/apiService";
 import { getCocktailRecommendationFromAI } from "../services/aiService";
+import { COLORS } from '../constants/constants';
 import SearchBar from "../components/SearchBar";
 import RecipeCard from "../components/RecipeCard";
 import Loading from "../components/Loading";
@@ -76,7 +77,7 @@ const MainPage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#374C7B",
+    backgroundColor: COLORS.primary,
   },
 });
 

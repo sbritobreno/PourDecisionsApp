@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { COLORS, SIZES } from '../constants/constants';
 
 const RecipeCard = ({ item, handleRecipeClick }) => {
   return (
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginVertical: 5,
     elevation: 5,
-    shadowColor: "#000",
+    shadowColor: COLORS.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
@@ -34,8 +35,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   recipeName: {
-    fontSize: 18,
-    color: "#000",
+    fontSize: SIZES.medium,
+    color: COLORS.black,
     fontWeight: "bold",
   },
 });

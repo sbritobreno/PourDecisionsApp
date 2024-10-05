@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from "expo-router";
 import { fetchCocktailById } from "../services/apiService";
+import { COLORS } from '../constants/constants';
+import RecipeDetailsCard from '../components/RecipeDetailsCard';
 
 const RecipeDetails = () => {
   const [recipe, setRecipe] = useState({});
@@ -18,7 +20,7 @@ const RecipeDetails = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{recipe.id}</Text>
+      <RecipeDetailsCard recipe={recipe[0]} /> 
     </View>
   );
 };
@@ -26,30 +28,7 @@ const RecipeDetails = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#FFFAFA',
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    borderRadius: 10,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginVertical: 10,
-  },
-  category: {
-    fontSize: 18,
-    marginVertical: 5,
-  },
-  ingredients: {
-    fontSize: 16,
-    marginVertical: 5,
-  },
-  instructions: {
-    fontSize: 16,
-    marginVertical: 5,
+    backgroundColor: COLORS.primary,
   },
 });
 
