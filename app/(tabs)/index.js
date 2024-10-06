@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter, useFocusEffect } from "expo-router";
 import { View, FlatList, StyleSheet } from "react-native";
-import { fetchCocktailRecipes } from "../services/apiService";
+import { fetchCocktailRecipes, fetchCocktail } from "../services/apiService";
 import { getCocktailRecommendationFromAI } from "../services/aiService";
 import { COLORS, FAVORITES_KEY } from "../constants/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -55,7 +55,6 @@ const MainPage = () => {
     }, [])
   );
 
-  // Handle search functionality
   const handleSearch = async () => {
     if (!prompt) {
       setFilteredRecipes(allRecipes);
@@ -64,14 +63,30 @@ const MainPage = () => {
 
     setLoading(true);
 
-    const aiResponse = await getCocktailRecommendationFromAI(prompt);
+    try {
+      const aiResponse = await getCocktailRecommendationFromAI(prompt);
+      const cocktailNames = aiResponse
+        .split("\n") // Split by new lines
+        .map((line) => line.replace(/^\d+\.\s/, "").trim()) // Remove numbering (e.g., "1. ")
+        .filter((name) => name.length > 0); // Filter out any empty lines
 
-    const filtered = allRecipes.filter((recipe) =>
-      recipe.name.toLowerCase().includes(aiResponse.toLowerCase())
-    );
+      const fetchedCocktails = await Promise.all(
+        cocktailNames.map(async (name) => {
+          const cocktail = await fetchCocktail(name);
+          return cocktail;
+        })
+      );
 
-    setFilteredRecipes(filtered);
-    setLoading(false);
+      const validCocktails = fetchedCocktails.filter(
+        (cocktail) => cocktail !== null
+      );
+
+      setFilteredRecipes(validCocktails);
+    } catch (error) {
+      console.error("Error getting AI recommendation:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleRecipeClick = (recipe) => {

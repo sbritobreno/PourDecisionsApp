@@ -64,7 +64,7 @@ const FavoritesPage = () => {
                 <RecipeCard
                   item={item}
                   handleRecipeClick={handleRecipeClick}
-                  isFavorite={false} // You can pass true if you want to mark them as favorites
+                  isFavorite={false} 
                 />
               )}
             />

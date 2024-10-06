@@ -52,6 +52,32 @@ export const fetchCocktailRecipes = async (searchTerm = "") => {
   }
 };
 
+export const fetchCocktail = async (name = "") => {
+  try {
+    const url = `https://www.thecocktaildb.com/api/json/v2/${COCKTAIL_API_KEY}/search.php?s=${name}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.drinks && data.drinks.length > 0) {
+      const drink = data.drinks[0]; 
+      return {
+        id: drink.idDrink,
+        name: drink.strDrink,
+        category: drink.strCategory,
+        instructions: drink.strInstructions,
+        thumbnail: drink.strDrinkThumb,
+        ingredients: getIngredients(drink),
+      };
+    } else {
+      return null; 
+    }
+  } catch (error) {
+    console.error("Error fetching cocktail recipe:", error);
+    return null; 
+  }
+};
+
 // Helper function to extract the ingredients from the drink object
 const getIngredients = (drink) => {
   let ingredients = [];

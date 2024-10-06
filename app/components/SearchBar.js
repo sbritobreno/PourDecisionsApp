@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
-import { COLORS, SIZES, SPACING } from "../constants/constants";
+import { COLORS, SPACING } from "../constants/constants";
 
 const SearchBar = ({ prompt, setPrompt, handleSearch }) => {
   return (
