@@ -89,6 +89,11 @@ const MainPage = () => {
     }
   };
 
+  const handleClear = async () => {
+    setPrompt("");
+    setFilteredRecipes(allRecipes);
+  };
+
   const handleRecipeClick = (recipe) => {
     router.push({
       pathname: "./recipeDetails",
@@ -114,6 +119,7 @@ const MainPage = () => {
           prompt={prompt}
           setPrompt={setPrompt}
           handleSearch={handleSearch}
+          handleClear={handleClear}
         />
         {loading ? (
           <Loading />
