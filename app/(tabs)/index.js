@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter, useFocusEffect } from "expo-router";
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet, Text } from "react-native";
 import { fetchCocktailRecipes, fetchCocktail } from "../services/apiService";
 import { getCocktailRecommendationFromAI } from "../services/aiService";
 import { COLORS, FAVORITES_KEY } from "../constants/constants";
@@ -117,12 +117,16 @@ const MainPage = () => {
         />
         {loading ? (
           <Loading />
-        ) : (
+        ) : filteredRecipes.length > 0 ? (
           <FlatList
             data={filteredRecipes}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
           />
+        ) : (
+          <Text style={styles.noRecipesText}>
+            No Cocktail found for this search...
+          </Text>
         )}
       </View>
       <FloatingButton icon={"bookmark"} route={"./favorites"} homebtn={true} />
@@ -134,6 +138,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.primary,
+  },
+  noRecipesText: {
+    color: COLORS.white,
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 20,
+    fontFamily: "IrishGrover",
   },
 });
 
