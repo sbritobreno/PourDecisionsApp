@@ -8,7 +8,7 @@ const SearchBar = ({ prompt, setPrompt, handleSearch, handleClear }) => {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="🔍 What kind of cocktail are you looking for?"
+        placeholder="🔍 Which cocktail are you looking for?"
         placeholderTextColor={COLORS.gray}
         value={prompt}
         onChangeText={setPrompt}

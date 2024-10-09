@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter, useFocusEffect } from "expo-router";
 import { View, FlatList, StyleSheet, Text } from "react-native";
-import { fetchCocktailRecipes, fetchCocktail } from "../services/apiService";
-import { getCocktailRecommendationFromAI } from "../services/aiService";
+import { fetchCocktailRecipes } from "../services/apiService";
 import { COLORS, FAVORITES_KEY } from "../constants/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "../components/SearchBar";
@@ -14,7 +13,7 @@ import { useFonts } from "expo-font";
 const MainPage = () => {
   const [prompt, setPrompt] = useState("");
   const [allRecipes, setAllRecipes] = useState([]);
-  const [filteredRecipes, setFilteredRecipes] = useState([]);
+  const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const router = useRouter();
@@ -29,7 +28,7 @@ const MainPage = () => {
       setLoading(true);
       const fetchedRecipes = await fetchCocktailRecipes("");
       setAllRecipes(fetchedRecipes);
-      setFilteredRecipes(fetchedRecipes);
+      setRecipes(fetchedRecipes);
       setLoading(false);
     };
 
@@ -56,42 +55,18 @@ const MainPage = () => {
   );
 
   const handleSearch = async () => {
-    if (!prompt) {
-      setFilteredRecipes(allRecipes);
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const aiResponse = await getCocktailRecommendationFromAI(prompt);
-      const cocktailNames = aiResponse
-        .split("\n") // Split by new lines
-        .map((line) => line.replace(/^\d+\.\s/, "").trim()) // Remove numbering (e.g., "1. ")
-        .filter((name) => name.length > 0); // Filter out any empty lines
-
-      const fetchedCocktails = await Promise.all(
-        cocktailNames.map(async (name) => {
-          const cocktail = await fetchCocktail(name);
-          return cocktail;
-        })
-      );
-
-      const validCocktails = fetchedCocktails.filter(
-        (cocktail) => cocktail !== null
-      );
-
-      setFilteredRecipes(validCocktails);
-    } catch (error) {
-      console.error("Error getting AI recommendation:", error);
-    } finally {
-      setLoading(false);
+    if (prompt) {
+      setPrompt(prompt.trim());
+      const fetchedRecipes = await fetchCocktailRecipes(prompt);
+      setRecipes(fetchedRecipes);
+    } else {
+      setRecipes(allRecipes);
     }
   };
 
   const handleClear = async () => {
     setPrompt("");
-    setFilteredRecipes(allRecipes);
+    setRecipes(allRecipes);
   };
 
   const handleRecipeClick = (recipe) => {
@@ -123,9 +98,9 @@ const MainPage = () => {
         />
         {loading ? (
           <Loading />
-        ) : filteredRecipes.length > 0 ? (
+        ) : recipes.length > 0 ? (
           <FlatList
-            data={filteredRecipes}
+            data={recipes}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
           />
