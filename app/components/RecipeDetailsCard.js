@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   favoriteIcon: {
     position: "absolute",
     top: 10,
-    right: 40,
+    right: 10,
   },
   name: {
     fontSize: SIZES.large,
