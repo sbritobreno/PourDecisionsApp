@@ -93,7 +93,6 @@ const RecipeDetailsCard = ({ recipe, route = "/" }) => {
         <Text style={[styles.name, { fontFamily: "IrishGrover" }]}>
           {recipe.name}
         </Text>
-        <Text style={styles.category}>Category: {recipe.category}</Text>
         <Text style={[styles.sectionTitle, { fontFamily: "IrishGrover" }]}>
           Ingredients
         </Text>
@@ -138,8 +137,8 @@ const styles = StyleSheet.create({
     marginBottom: SPACING.medium,
   },
   thumbnail: {
-    width: 300,
-    height: 300,
+    width: "100%",
+    aspectRatio: 1.2,
     borderRadius: 8,
   },
   favoriteIcon: {
@@ -150,12 +149,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: SIZES.large,
     fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: SPACING.small,
-    color: COLORS.white,
-  },
-  category: {
-    fontSize: SIZES.medium,
     textAlign: "center",
     marginBottom: SPACING.small,
     color: COLORS.white,

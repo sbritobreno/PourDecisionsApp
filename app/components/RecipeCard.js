@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   recipeName: {
     fontSize: SIZES.medium,
-    color: COLORS.black,
+    color: COLORS.primary,
     fontWeight: "bold",
   },
   favoriteIcon: {
