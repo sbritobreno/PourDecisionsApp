@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { COLORS, SPACING } from "../constants/constants";
+import { COLORS, SPACING } from "../../constants/constants";
 
 const FloatingButton = ({ icon, route, homebtn = false }) => {
   const router = useRouter();

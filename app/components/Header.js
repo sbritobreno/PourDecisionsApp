@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router"; 
-import { COLORS } from '../constants/constants';
+import { COLORS } from '../../constants/constants';
 
 const logo = require("../../assets/images/logo_header.png");
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { COLORS, SIZES, SPACING } from "../constants/constants";
+import { COLORS, SIZES, SPACING } from "../../constants/constants";
 
 const RecipeCard = ({ item, handleRecipeClick, isFavorite }) => {
   return (

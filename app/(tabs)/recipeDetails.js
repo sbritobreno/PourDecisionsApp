@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { fetchCocktailById } from "../services/apiService";
-import { COLORS } from "../constants/constants";
+import { fetchCocktailById } from "../../services/apiService";
+import { COLORS } from "../../constants/constants";
 import RecipeDetailsCard from "../components/RecipeDetailsCard";
 
 const RecipeDetails = () => {

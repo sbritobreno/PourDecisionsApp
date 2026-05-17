@@ -3,8 +3,8 @@ import { useRouter, useFocusEffect } from "expo-router";
 import { View, FlatList, StyleSheet, Text } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RecipeCard from "../components/RecipeCard";
-import { COLORS, FAVORITES_KEY, SPACING } from "../constants/constants";
-import { fetchCocktailById } from "../services/apiService";
+import { COLORS, FAVORITES_KEY, SPACING } from "../../constants/constants";
+import { fetchCocktailById } from "../../services/apiService";
 import FloatingButton from "../components/FloatingButton";
 
 const FavoritesPage = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
-import { COLORS, SPACING } from "../constants/constants";
+import { COLORS, SPACING } from "../../constants/constants";
 import { Ionicons } from "@expo/vector-icons";
 
 const SearchBar = ({ prompt, setPrompt, handleSearch, handleClear }) => {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter, useFocusEffect } from "expo-router";
 import { View, FlatList, StyleSheet, Text } from "react-native";
-import { fetchCocktailRecipes } from "../services/apiService";
-import { COLORS, FAVORITES_KEY } from "../constants/constants";
+import { fetchCocktailRecipes } from "../../services/apiService";
+import { COLORS, FAVORITES_KEY } from "../../constants/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SearchBar from "../components/SearchBar";
 import RecipeCard from "../components/RecipeCard";

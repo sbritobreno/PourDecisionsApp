@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { COLORS, SIZES, SPACING, FAVORITES_KEY } from "../constants/constants";
+import { COLORS, SIZES, SPACING, FAVORITES_KEY } from "../../constants/constants";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Loading from "./Loading";
 import FloatingButton from "./FloatingButton";
