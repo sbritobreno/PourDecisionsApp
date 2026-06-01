@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "PourDecisionsApp",
+    "name": "Pour Decisions",
     "slug": "pourdecisions",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -14,7 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.sbritobreno.pourdecisions"
+      "bundleIdentifier": "com.sbritobreno.pourdecisions",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
